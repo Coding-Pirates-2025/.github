@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://bx5rgw0lbm063"]
+
+[ext_resource type="PackedScene" uid="uid://cyehvnj1oex17" path="res://box.tscn" id="1_nqq1g"]
+[ext_resource type="Script" path="res://Player.gd" id="1_phatu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v7ait"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w5olo"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ggrit"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xxbqk"]
+material = SubResource("StandardMaterial3D_ggrit")
+size = Vector3(60, 2, 60)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xig5p"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jgn6v"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Box 1" parent="." instance=ExtResource("1_nqq1g")]
+transform = Transform3D(5, 0, 0, 0, 2, 0, 0, 0, 5, -14.2474, 0, 0)
+
+[node name="Box 2" parent="." instance=ExtResource("1_nqq1g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.84496, 0, 2.75828)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1, 2.08165e-12)
+physics_material_override = SubResource("PhysicsMaterial_v7ait")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_w5olo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_xxbqk")
+skeleton = NodePath("../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0268225, 0.99964, 0, -0.99964, -0.0268225, 0.0124936, 17.9418, 0)
+shadow_enabled = true
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 2.08165e-12)
+script = ExtResource("1_phatu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+shape = SubResource("CapsuleShape3D_xig5p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_jgn6v")
+
+[node name="PlayerCamera" type="Camera3D" parent="Player"]
+transform = Transform3D(1, -4.68079e-16, 3.27752e-16, 3.27752e-16, 0.939693, 0.34202, -4.68079e-16, -0.34202, 0.939693, 2.08165e-12, 2, 3)
